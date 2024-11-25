@@ -1,0 +1,48 @@
+2a
+# Load necessary libraries
+library(readxl)  # For reading Excel files
+library(dplyr)   # For merging data
+library(ggplot2) # For plotting
+
+# Define the path to the folder
+path <- "C:/Users/kdivy/.ipynb_checkpoints/"
+
+# Load Gene Expression Data (Excel file)
+gene_expression_data <- read_excel(paste0(path, "Gene_Expression_Data.xlsx"))
+
+# Load Gene Information (CSV file)
+gene_information <- read.csv(paste0(path, "Gene_Information.csv"))
+
+# Load Sample Information (TSV file)
+sample_information <- read.delim(paste0(path, "Sample_Information.tsv"), sep = "\t")
+
+# Merge the datasets
+merged_data <- merge(gene_expression_data, gene_information, by = "Probe_ID", all.x = TRUE)
+merged_data <- merge(merged_data, sample_information, by = "Sample_Name", all.x = TRUE)
+
+# Check the structure of the merged data
+head(merged_data)
+str(merged_data)
+
+# Inspect the first few rows of the merged data
+head(merged_data)
+
+# Check the structure of the merged data
+str(merged_data)
+
+
+2b
+# Count DEGs by chromosome
+degs_by_chromosome <- table(merged_data$Chromosome)
+
+# Plot histogram for distribution of DEGs by chromosome
+barplot(degs_by_chromosome,
+        col = "skyblue",
+        las = 2,
+        main = "Distribution of Differentially Expressed Genes (DEGs) by Chromosome",
+        xlab = "Chromosome",
+        ylab = "Number of DEGs")
+
+
+
+
